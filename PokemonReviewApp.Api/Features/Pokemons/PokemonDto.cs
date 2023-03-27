@@ -1,6 +1,6 @@
 ﻿namespace PokemonReviewApp.Api.Features.Pokemons;
 
-public class PokemonDto
+public record PokemonDto
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }

@@ -42,9 +42,7 @@ namespace PokemonReviewApp.Api.Features.Pokemons
 		{
 			try
 			{
-				PokemonModel pokemon = await _context.Pokemons
-					.FirstOrDefaultAsync(x => x.Id.Equals(id))
-					?? throw new InvalidOperationException($"Pokemon with ID {id} not found.");
+				PokemonModel pokemon = await GetPokemonByIdAsync(id);
 
 				if (pokemon.Reviews.IsNullOrEmpty()) return 0;
 

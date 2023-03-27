@@ -16,9 +16,9 @@ public class PokemonController : BaseController
 	}
 
 	[HttpGet]
-	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PokemonDto>))]
+	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<PokemonDto>))]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
-	public async Task<ActionResult<ICollection<PokemonDto>>> GetPokemons()
+	public async Task<ActionResult<ICollection<PokemonDto>>> GetPokemonsAsync()
 	{
 		try
 		{
@@ -38,7 +38,7 @@ public class PokemonController : BaseController
 	[HttpGet("{id:guid}")]
 	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PokemonDto))]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
-	public async Task<ActionResult<PokemonDto>> GetPokemonById(Guid id)
+	public async Task<ActionResult<PokemonDto>> GetPokemonByIdAsync(Guid id)
 	{
 		try
 		{
@@ -57,7 +57,7 @@ public class PokemonController : BaseController
 	[HttpGet("{name}")]
 	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PokemonDto))]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
-	public async Task<ActionResult<PokemonDto>> GetPokemonByName(string name)
+	public async Task<ActionResult<PokemonDto>> GetPokemonByNameAsync(string name)
 	{
 		try
 		{
@@ -75,7 +75,7 @@ public class PokemonController : BaseController
 
 	[HttpGet("{id}/reating")]
 	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(decimal))]
-	public async Task<ActionResult<PokemonDto>> GetPokemonRating(Guid id)
+	public async Task<ActionResult<PokemonDto>> GetPokemonRatingAsync(Guid id)
 	{
 		try
 		{

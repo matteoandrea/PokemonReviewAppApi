@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp.Api.Data;
 using PokemonReviewApp.Api.Features.Category;
+using PokemonReviewApp.Api.Features.Country;
 using PokemonReviewApp.Api.Features.Pokemons;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 	builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 	builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 	builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+	builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 
 
 	builder.Services.AddEndpointsApiExplorer();
