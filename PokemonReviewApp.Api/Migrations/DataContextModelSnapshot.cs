@@ -17,7 +17,7 @@ namespace PokemonReviewApp.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -29,7 +29,6 @@ namespace PokemonReviewApp.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -44,7 +43,6 @@ namespace PokemonReviewApp.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -52,25 +50,22 @@ namespace PokemonReviewApp.Api.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("PokemonReviewApp.Api.Features.Owner.OwnerModel", b =>
+            modelBuilder.Entity("PokemonReviewApp.Api.Features.Owners.OwnerModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CountryId")
+                    b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gym")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -78,24 +73,6 @@ namespace PokemonReviewApp.Api.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Owners");
-                });
-
-            modelBuilder.Entity("PokemonReviewApp.Api.Features.Pokemon.PokemonModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Pokemons");
                 });
 
             modelBuilder.Entity("PokemonReviewApp.Api.Features.PokemonCategory.PokemonCategoryModel", b =>
@@ -128,13 +105,31 @@ namespace PokemonReviewApp.Api.Migrations
                     b.ToTable("PokemonOwners");
                 });
 
+            modelBuilder.Entity("PokemonReviewApp.Api.Features.Pokemons.PokemonModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pokemons");
+                });
+
             modelBuilder.Entity("PokemonReviewApp.Api.Features.Review.ReviewModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PokemonModelId")
+                    b.Property<Guid>("PokemonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Rating")
@@ -144,16 +139,14 @@ namespace PokemonReviewApp.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PokemonModelId");
+                    b.HasIndex("PokemonId");
 
                     b.HasIndex("ReviewerId");
 
@@ -179,13 +172,11 @@ namespace PokemonReviewApp.Api.Migrations
                     b.ToTable("Reviewers");
                 });
 
-            modelBuilder.Entity("PokemonReviewApp.Api.Features.Owner.OwnerModel", b =>
+            modelBuilder.Entity("PokemonReviewApp.Api.Features.Owners.OwnerModel", b =>
                 {
                     b.HasOne("PokemonReviewApp.Api.Features.Country.CountryModel", "Country")
                         .WithMany("Owners")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });
@@ -198,7 +189,7 @@ namespace PokemonReviewApp.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PokemonReviewApp.Api.Features.Pokemon.PokemonModel", "Pokemon")
+                    b.HasOne("PokemonReviewApp.Api.Features.Pokemons.PokemonModel", "Pokemon")
                         .WithMany("PokemonCategories")
                         .HasForeignKey("PokemonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -211,13 +202,13 @@ namespace PokemonReviewApp.Api.Migrations
 
             modelBuilder.Entity("PokemonReviewApp.Api.Features.PokemonOwner.PokemonOwnerModel", b =>
                 {
-                    b.HasOne("PokemonReviewApp.Api.Features.Owner.OwnerModel", "Owner")
+                    b.HasOne("PokemonReviewApp.Api.Features.Owners.OwnerModel", "Owner")
                         .WithMany("PokemonOwners")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PokemonReviewApp.Api.Features.Pokemon.PokemonModel", "Pokemon")
+                    b.HasOne("PokemonReviewApp.Api.Features.Pokemons.PokemonModel", "Pokemon")
                         .WithMany("PokemonOwners")
                         .HasForeignKey("PokemonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -230,15 +221,19 @@ namespace PokemonReviewApp.Api.Migrations
 
             modelBuilder.Entity("PokemonReviewApp.Api.Features.Review.ReviewModel", b =>
                 {
-                    b.HasOne("PokemonReviewApp.Api.Features.Pokemon.PokemonModel", null)
+                    b.HasOne("PokemonReviewApp.Api.Features.Pokemons.PokemonModel", "Pokemon")
                         .WithMany("Reviews")
-                        .HasForeignKey("PokemonModelId");
+                        .HasForeignKey("PokemonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PokemonReviewApp.Api.Features.Review.ReviewerModel", "Reviewer")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Pokemon");
 
                     b.Navigation("Reviewer");
                 });
@@ -253,12 +248,12 @@ namespace PokemonReviewApp.Api.Migrations
                     b.Navigation("Owners");
                 });
 
-            modelBuilder.Entity("PokemonReviewApp.Api.Features.Owner.OwnerModel", b =>
+            modelBuilder.Entity("PokemonReviewApp.Api.Features.Owners.OwnerModel", b =>
                 {
                     b.Navigation("PokemonOwners");
                 });
 
-            modelBuilder.Entity("PokemonReviewApp.Api.Features.Pokemon.PokemonModel", b =>
+            modelBuilder.Entity("PokemonReviewApp.Api.Features.Pokemons.PokemonModel", b =>
                 {
                     b.Navigation("PokemonCategories");
 

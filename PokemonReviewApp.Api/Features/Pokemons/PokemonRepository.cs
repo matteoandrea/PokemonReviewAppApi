@@ -60,7 +60,24 @@ namespace PokemonReviewApp.Api.Features.Pokemons
 			{
 				return await _context.Pokemons
 					.ToListAsync()
-					?? throw new InvalidOperationException($"Pokemon database is empty.");
+					?? throw new InvalidOperationException("Pokemon database is empty.");
+
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("An error occurred while retrieving the list of Pokemons.", ex);
+			}
+		}
+
+		public async Task<ICollection<PokemonModel>> GetPokemonByOwnerId(Guid ownerId)
+		{
+			try
+			{
+				return await _context.PokemonOwners
+					.Where(x => x.OwnerId.Equals(ownerId))
+					.Select(x => x.Pokemon)
+					.ToListAsync()
+					?? throw new InvalidOperationException($"Owner with ID {ownerId} not found."); ;
 
 			}
 			catch (Exception ex)

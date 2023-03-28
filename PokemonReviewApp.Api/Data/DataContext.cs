@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp.Api.Features.Category;
 using PokemonReviewApp.Api.Features.Country;
-using PokemonReviewApp.Api.Features.Owner;
+using PokemonReviewApp.Api.Features.Owners;
 using PokemonReviewApp.Api.Features.Pokemons;
 using PokemonReviewApp.Api.Features.PokemonCategory;
 using PokemonReviewApp.Api.Features.PokemonOwner;
 using PokemonReviewApp.Api.Features.Review;
+using PokemonReviewApp.Api.Features.Reviewer;
 
 namespace PokemonReviewApp.Api.Data;
 

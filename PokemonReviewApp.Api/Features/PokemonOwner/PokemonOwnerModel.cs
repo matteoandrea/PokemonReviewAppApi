@@ -1,4 +1,4 @@
-﻿using PokemonReviewApp.Api.Features.Owner;
+﻿using PokemonReviewApp.Api.Features.Owners;
 using PokemonReviewApp.Api.Features.Pokemons;
 
 namespace PokemonReviewApp.Api.Features.PokemonOwner

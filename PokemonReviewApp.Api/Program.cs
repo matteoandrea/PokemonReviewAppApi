@@ -2,7 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp.Api.Data;
 using PokemonReviewApp.Api.Features.Category;
 using PokemonReviewApp.Api.Features.Country;
+using PokemonReviewApp.Api.Features.Owners;
 using PokemonReviewApp.Api.Features.Pokemons;
+using PokemonReviewApp.Api.Features.Review;
+using PokemonReviewApp.Api.Features.Reviewer;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -13,6 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 	builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 	builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 	builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+	builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+	builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+	builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
 
 
 	builder.Services.AddEndpointsApiExplorer();

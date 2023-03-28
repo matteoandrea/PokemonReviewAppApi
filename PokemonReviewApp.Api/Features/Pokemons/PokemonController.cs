@@ -32,7 +32,6 @@ public class PokemonController : BaseController
 		{
 			throw new Exception("An error occurred.", ex);
 		}
-
 	}
 
 	[HttpGet("{id:guid}")]
@@ -73,7 +72,7 @@ public class PokemonController : BaseController
 		}
 	}
 
-	[HttpGet("{id}/reating")]
+	[HttpGet("{id:guid}/reating")]
 	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(decimal))]
 	public async Task<ActionResult<PokemonDto>> GetPokemonRatingAsync(Guid id)
 	{
@@ -81,6 +80,25 @@ public class PokemonController : BaseController
 		{
 			decimal rating = await _repository.GetPokemonRatingAsync(id);
 			return Ok(rating);
+		}
+		catch (Exception ex)
+		{
+			throw new Exception("An error occurred.", ex);
+		}
+	}
+
+	[HttpGet("owner/{ownerId:guid}")]
+	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PokemonDto))]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	public async Task<ActionResult<ICollection<PokemonDto>>> GetPokemonByOwnerId(Guid ownerId)
+	{
+		try
+		{
+			ICollection<PokemonModel> pokemons = await _repository.GetPokemonByOwnerId(ownerId);
+			if (pokemons == null) return NotFound();
+			ICollection<PokemonDto> dto = MapModelsToDtos<PokemonDto, PokemonModel>(pokemons);
+
+			return Ok(dto);
 		}
 		catch (Exception ex)
 		{
